@@ -11,7 +11,7 @@ import { commentValidationSchema } from "../validation/twitValidation";
 // Get all twits function
 export const getTwitList = async (_req: Request, res: Response) => {
     const twitList = await twitsModel.getTwitList();
-    return res.status(200).json({ twitList });
+    return res.status(StatusCodes.OK).json({ twitList });
 };
 
 // Get twit function
@@ -25,7 +25,7 @@ export const getTwit = async (req: Request, res: Response) => {
             StatusCodes.NOT_FOUND
         );
     }
-    return res.status(200).json({ twit });
+    return res.status(StatusCodes.OK).json({ twit });
 };
 
 // Create twit function
@@ -53,7 +53,7 @@ export const createTwit = async (req: Request, res: Response) => {
         twit.id
     );
 
-    return res.status(200).json({ twit, findAndUpdateUser });
+    return res.status(StatusCodes.OK).json({ twit, findAndUpdateUser });
 };
 
 // Create comment function
@@ -87,7 +87,7 @@ export const createComment = async (req: Request, res: Response) => {
             StatusCodes.NOT_FOUND
         );
     }
-    return res.status(200).json({ addCommentToTwit });
+    return res.status(StatusCodes.OK).json({ addCommentToTwit });
 };
 
 // Update twit function
@@ -104,7 +104,7 @@ export const updateTwit = async (req: Request, res: Response) => {
         );
     }
 
-    return res.status(200).json({ singleTwit });
+    return res.status(StatusCodes.OK).json({ singleTwit });
 };
 
 // Delete twit function
@@ -120,6 +120,6 @@ export const deleteTwit = async (req: Request, res: Response) => {
     }
 
     return res
-        .status(200)
+        .status(StatusCodes.OK)
         .json({ message: `Item with id: ${twitID} was deleted.` });
 };
