@@ -138,12 +138,20 @@ export const userRegistration = async (req: Request, res: Response) => {
     return res.status(200).json({
         message: "Registartion completed",
         createUser,
-        token: createAccessToken({
-            id: createUser.id,
+        // token: createAccessToken({
+        //     id: createUser.id,
 
-            username: createUser.username!,
-        }),
+        //     username: createUser.username!,
+        // }),
     });
+};
+
+export const accountAcctivation = async (req: Request, res: Response) => {
+    const { id: userID } = req.params;
+
+    userModel.getUserById(userID);
+
+    return res.status(StatusCodes.OK).json({ message: "everything okay" });
 };
 
 // Update user info fucntion
