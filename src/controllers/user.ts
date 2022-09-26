@@ -14,7 +14,7 @@ import { userValidationSchema } from "../validation/userValidation";
 // Get all users function
 export const getAllUsers = async (_req: Request, res: Response) => {
     const userList = await userModel.getAllUsers();
-    return res.status(200).json(userList);
+    return res.status(StatusCodes.OK).json(userList);
 };
 
 // Get user function
@@ -31,7 +31,7 @@ export const getUser = async (req: Request, res: Response) => {
 
     const twitsList = await twitsModel.getUsersTwits(singleUser.twits);
 
-    return res.status(200).json({ singleUser, twitsList });
+    return res.status(StatusCodes.OK).json({ singleUser, twitsList });
 };
 
 // User authorization function
@@ -66,7 +66,7 @@ export const userAuthorization = async (req: Request, res: Response) => {
         res
     );
 
-    return res.status(200).json({
+    return res.status(StatusCodes.OK).json({
         message: "Authorization completed",
         token: createAccessToken({
             id: userCheck.id,
@@ -93,7 +93,7 @@ export const refreshUserToken = async (req: Request, res: Response) => {
             res
         );
 
-        return res.status(200).json({
+        return res.status(StatusCodes.OK).json({
             message: "Token refreshed",
             token: createAccessToken({
                 id: decodeToken.id,
@@ -135,7 +135,7 @@ export const userRegistration = async (req: Request, res: Response) => {
 
     await sendRegistrationEmail(createUser.user_email!);
 
-    return res.status(200).json({
+    return res.status(StatusCodes.OK).json({
         message: "Registartion completed",
         createUser,
         // token: createAccessToken({
@@ -160,7 +160,7 @@ export const updateUserInfo = async (req: Request, res: Response) => {
     // !!!
     const findUser = await userModel.updateUser(req.user?.id!, updateData);
 
-    return res.status(200).json({ findUser });
+    return res.status(StatusCodes.OK).json({ findUser });
 };
 
 // Update user password function
@@ -176,7 +176,9 @@ export const updatePassword = async (req: Request, res: Response) => {
 
         await userModel.updatePassword(req.user?.id!, newEncryptedPassword);
     }
-    return res.status(200).json({ message: "Password successfully changed" });
+    return res
+        .status(StatusCodes.OK)
+        .json({ message: "Password successfully changed" });
 };
 
 // Add follow function
@@ -188,5 +190,5 @@ export const addFollow = async (req: Request, res: Response) => {
         req.user?.id!,
         openedUserId
     );
-    return res.status(200).json({ findUserAndUpdate });
+    return res.status(StatusCodes.OK).json({ findUserAndUpdate });
 };
