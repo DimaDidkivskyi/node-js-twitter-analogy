@@ -1,3 +1,4 @@
+import { StatusCodes } from "http-status-codes";
 import nodemailer from "nodemailer";
 import { appConfig } from "../config";
 import { CustomAPIError } from "../error/custom-error";
@@ -20,7 +21,10 @@ export const sendRegistrationEmail = (userEmail: string) => {
 
     transporter.sendMail(mailOptions, (error) => {
         if (error) {
-            throw new CustomAPIError(`${error.message}`, 401);
+            throw new CustomAPIError(
+                `${error.message}`,
+                StatusCodes.BAD_REQUEST
+            );
         }
     });
 };
