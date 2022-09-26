@@ -1,0 +1,27 @@
+export interface IReqUserData {
+    user_email: string;
+    username: string;
+    password: string;
+    birthday: Date;
+}
+
+export interface IReqTwitData {
+    text_of_twit: string;
+    atachment: string;
+    likes: number;
+    comments: Array<object>;
+    date_of_creation: number;
+}
+
+export interface IReqCommentData {
+    userId: string;
+    username: string;
+    text_of_comment: string;
+    likes: number;
+    date_of_creation: number;
+}
+
+export interface IUserTokenPayload {
+    id: string;
+    username: string;
+}
