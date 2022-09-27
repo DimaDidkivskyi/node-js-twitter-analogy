@@ -10,7 +10,6 @@
     "rules": {
         "@typescript-eslint/quotes": ["error", "double"],
         "import/prefer-default-export": "off"
-        // "@typescript-eslint/indent": ["error", 4]
     },
     "plugins": ["prettier"]
 }

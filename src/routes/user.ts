@@ -1,6 +1,7 @@
 import express from "express";
 import { authUserMiddleware } from "../auth/authMiddleware";
 import {
+    accountAcctivation,
     addFollow,
     getAllUsers,
     getUser,
@@ -28,6 +29,11 @@ userRouter.post("/refresh_token", functionWrapper(refreshUserToken));
 
 // Registration
 userRouter.post("/registration", functionWrapper(userRegistration));
+
+userRouter.put(
+    "/activate-account/:id/:key",
+    functionWrapper(accountAcctivation)
+);
 
 // Update user info
 userRouter.put(

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { decode, verify } from "jsonwebtoken";
+import cryptoRandomString from "crypto-random-string";
 import { createAccessToken, createRefreshToken } from "../auth/createToken";
 import { passwordHash } from "../auth/passwordHash";
 import { appConfig } from "../config";
@@ -123,35 +124,37 @@ export const userRegistration = async (req: Request, res: Response) => {
         );
     }
 
+    const userKey = cryptoRandomString(10);
+
     const createUser = await userModel.createUser({
         ...userData,
         password: passwordHash(userData.password),
+        activationKey: userKey,
     });
 
-    // createRefreshToken(
-    //     { id: createUser.id, username: createUser.username! },
-    //     res
-    // );
-
-    await sendRegistrationEmail(createUser.user_email!);
+    await sendRegistrationEmail(
+        createUser.user_email!,
+        createUser.id,
+        createUser.activationKey!
+    );
 
     return res.status(StatusCodes.OK).json({
         message: "Registartion completed",
-        createUser,
-        // token: createAccessToken({
-        //     id: createUser.id,
-
-        //     username: createUser.username!,
-        // }),
     });
 };
 
+// Account activation
 export const accountAcctivation = async (req: Request, res: Response) => {
-    const { id: userID } = req.params;
+    const { id: userID, key: activationKey } = req.params;
 
-    userModel.getUserById(userID);
+    const findUser = await userModel.getUserById(userID);
 
-    return res.status(StatusCodes.OK).json({ message: "everything okay" });
+    if (findUser?.activationKey === activationKey) {
+        await userModel.updateActiveStatus(userID);
+    }
+    return res
+        .status(StatusCodes.OK)
+        .json({ message: "Your account activated." });
 };
 
 // Update user info fucntion

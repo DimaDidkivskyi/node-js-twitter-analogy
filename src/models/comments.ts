@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 export const commentsSchema = new mongoose.Schema({
-    userId: {
+    userID: {
         type: String,
     },
     username: {

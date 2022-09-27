@@ -3,6 +3,7 @@ export interface IReqUserData {
     username: string;
     password: string;
     birthday: Date;
+    activationKey: string;
 }
 
 export interface IReqTwitData {
@@ -14,7 +15,7 @@ export interface IReqTwitData {
 }
 
 export interface IReqCommentData {
-    userId: string;
+    userID: string;
     username: string;
     text_of_comment: string;
     likes: number;
