@@ -30,7 +30,7 @@ userRouter.post("/refresh_token", functionWrapper(refreshUserToken));
 // Registration
 userRouter.post("/registration", functionWrapper(userRegistration));
 
-userRouter.put(
+userRouter.get(
     "/activate-account/:id/:key",
     functionWrapper(accountAcctivation)
 );

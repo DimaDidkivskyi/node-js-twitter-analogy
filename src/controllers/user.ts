@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { decode, verify } from "jsonwebtoken";
-import cryptoRandomString from "crypto-random-string";
+import crypto from "crypto";
 import { createAccessToken, createRefreshToken } from "../auth/createToken";
 import { passwordHash } from "../auth/passwordHash";
 import { appConfig } from "../config";
@@ -104,7 +104,7 @@ export const refreshUserToken = async (req: Request, res: Response) => {
     }
 
     return res
-        .status(503)
+        .status(StatusCodes.SERVICE_UNAVAILABLE)
         .json({ error: true, message: "Failed to refresh token." });
 };
 
@@ -124,7 +124,7 @@ export const userRegistration = async (req: Request, res: Response) => {
         );
     }
 
-    const userKey = cryptoRandomString(10);
+    const userKey = crypto.randomBytes(20).toString("hex");
 
     const createUser = await userModel.createUser({
         ...userData,
@@ -151,6 +151,11 @@ export const accountAcctivation = async (req: Request, res: Response) => {
 
     if (findUser?.activationKey === activationKey) {
         await userModel.updateActiveStatus(userID);
+    } else {
+        throw new CustomAPIError(
+            "The keys don't match",
+            StatusCodes.BAD_REQUEST
+        );
     }
     return res
         .status(StatusCodes.OK)
