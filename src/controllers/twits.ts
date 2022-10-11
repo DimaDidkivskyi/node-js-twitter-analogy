@@ -77,7 +77,7 @@ export const createComment = async (req: Request, res: Response) => {
 
     const addCommentToTwit = await twitsModel.createComment(twitID, {
         ...newComment,
-        userId: req.user.id,
+        userID: req.user.id,
         username: req.user.username,
         date_of_creation: dateOfCreation,
     });

@@ -3,7 +3,11 @@ import nodemailer from "nodemailer";
 import { appConfig } from "../config";
 import { CustomAPIError } from "../error/custom-error";
 
-export const sendRegistrationEmail = (userEmail: string) => {
+export const sendRegistrationEmail = (
+    userEmail: string,
+    userID: string,
+    activationKey: string
+) => {
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -16,7 +20,7 @@ export const sendRegistrationEmail = (userEmail: string) => {
         from: appConfig.EMAIL_ADDRESS,
         to: userEmail,
         subject: "Registration to our service.",
-        text: "Thanks for registration in our service",
+        text: `Thanks for registration in our service.\nTo activate your account, please use link below\nhttp://localhost:5000/api/activate_account/${userID}/${activationKey}`,
     };
 
     transporter.sendMail(mailOptions, (error) => {

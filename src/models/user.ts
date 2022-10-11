@@ -31,12 +31,16 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    activationKey: {
+        type: String,
+    },
 });
 
 const User = mongoose.model("User", userSchema);
 
 export const userModel = {
     getAllUsers: () => User.find(),
+
     getUserById: (id: string) => User.findOne({ _id: id }),
 
     getUserByEmail: (email: string) => User.findOne({ user_email: email }),
@@ -50,15 +54,21 @@ export const userModel = {
             { new: true, runValidators: true }
         ),
 
+    updateActiveStatus: (userID: string) =>
+        User.findOneAndUpdate(
+            { _id: userID },
+            { $set: { active: true, activationKey: "" } }
+        ),
+
     updatePassword: (id: string, newPassword: string) =>
         User.findOneAndUpdate({ _id: id }, { $set: { password: newPassword } }),
 
-    addFollow: (id: string, userId: string) =>
+    addFollow: (id: string, userID: string) =>
         User.findOneAndUpdate(
             { _id: id },
             {
                 $push: {
-                    follow: userId,
+                    follow: userID,
                 },
             },
             { new: true }

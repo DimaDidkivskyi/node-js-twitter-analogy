@@ -7,10 +7,6 @@ const twtisSchema = new mongoose.Schema({
         type: String,
         required: [true, "This field can't be empty."],
     },
-    atachment: {
-        type: String,
-        default: "",
-    },
     likes: {
         type: Number,
         default: 0,
