@@ -8,7 +8,6 @@ export interface IReqUserData {
 
 export interface IReqTwitData {
     text_of_twit: string;
-    atachment: string;
     likes: number;
     comments: Array<object>;
     date_of_creation: number;
